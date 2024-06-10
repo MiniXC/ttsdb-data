@@ -1,0 +1,4 @@
+archives/*
+!archives/README.md
+extracted_data
+processed_data
