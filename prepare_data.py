@@ -322,3 +322,21 @@ if not (tar_dir / 'esc50.tar.gz').exists():
             tar.add(wav, arcname=wav.name)
             # transcript
             tar.add(wav.with_suffix('.txt'), arcname=wav.with_suffix('.txt').name)
+
+# blizzard 13 all systems
+# extracted_data/blizzard2013/2013-EH2-EXT/ - C,fastpitch_wg,fastpitch_wn,K,N,natural16,tacotron_wg,tacotron_wn
+if not (tar_dir / 'speech_blizzard2013_all_systems.tar.gz').exists():
+    print('Creating tar file for Blizzard 2013 all systems')
+    # write the transcript to files
+    for i, row in blizzard2013_transcripts.iterrows():
+        audio = row["audio"].replace('.wav', '')
+        for system in ['C', 'fastpitch_wg', 'fastpitch_wn', 'K', 'N', 'natural16', 'tacotron_wg', 'tacotron_wn']:
+            with open(f'extracted_data/blizzard2013/2013-EH2-EXT/{system}/submission_directory/2013/EH2-EXT/audiobook_sentences/{audio}.txt', 'w') as f:
+                f.write(row['text'])
+    with tarfile.open(tar_dir / 'speech_blizzard2013_all_systems.tar.gz', 'w:gz') as tar:
+        for system in ['C', 'fastpitch_wg', 'fastpitch_wn', 'K', 'N', 'natural16', 'tacotron_wg', 'tacotron_wn']:
+            for wav in Path(f'extracted_data/blizzard2013/2013-EH2-EXT/{system}/submission_directory/2013/EH2-EXT/audiobook_sentences').rglob('*.wav'):
+                # add directory for each system
+                tar.add(wav, arcname=f'{system}/{wav.name}')
+                # transcript
+                tar.add(wav.with_suffix('.txt'), arcname=f'{system}/{wav.with_suffix(".txt").name}')
