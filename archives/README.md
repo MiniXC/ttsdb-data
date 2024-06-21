@@ -5,7 +5,11 @@ The data can be found here: https://www.cstr.ed.ac.uk/projects/blizzard/data.htm
 We use "2008 Version 1" and "2013 extension conducted in 2023 Version 1"
 
 ## LibriTTS
-We use dev-clean.tar.gz and test-clean.tar.gz, which can be found here: https://openslr.org/60/
+We use test_clean.tar.gz, which can be found here: https://openslr.org/60/
+
+## LibriTTS
+We use test_clean.tar.gz, which can be found here: https://www.openslr.org/141/
+Make sure to rename it test_clean_r.tar.gz
 
 ## LJSpeech
 We use a custom test split of the full dataset, which can be found here: https://keithito.com/LJ-Speech-Dataset/

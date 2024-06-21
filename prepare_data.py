@@ -11,6 +11,7 @@ import pandas as pd
 blizzard2008 = tarfile.open('archives/blizzard_wavs_and_scores_2008_release_version_1.tar.bz2')
 blizzard2013 = tarfile.open('archives/2013-EH2-EXT.tar.gz')
 libritts_test = tarfile.open('archives/test-clean.tar.gz')
+libritts_r_test = tarfile.open('archives/test_clean_r.tar.gz')
 lj_speech = tarfile.open('archives/LJSpeech-1.1.tar.bz2')
 vctk = zipfile.ZipFile('archives/VCTK-Corpus-0.92.zip')
 common_voice = tarfile.open('archives/en.tar')
@@ -34,6 +35,9 @@ if not (target_dir / 'blizzard2013').exists():
 if not (target_dir / 'libritts_test').exists():
     print('Extracting LibriTTS test')
     libritts_test.extractall(target_dir / 'libritts_test')
+if not (target_dir / 'libritts_r_test').exists():
+    print('Extracting LibriTTS test (r)')
+    libritts_r_test.extractall(target_dir / 'libritts_r_test')
 if not (target_dir / 'lj_speech').exists():
     print('Extracting LJSpeech')
     lj_speech.extractall(target_dir / 'lj_speech')
@@ -223,6 +227,25 @@ if not (tar_dir / 'speech_libritts_test.tar.gz').exists():
             # rename .normalized.txt to .txt
             os.rename(wav.with_suffix('.normalized.txt'), wav.with_suffix('.txt'))
             tar.add(wav.with_suffix('.txt'), arcname=wav.with_suffix('.txt').name)
+
+# libritts_r_test
+# extracted_data/libritts_r_test/LibriTTS_R/test-clean
+if not (tar_dir / 'speech_libritts_r_test.tar.gz').exists():
+    print('Creating tar file for LibriTTS test (r)')
+    wavs = []
+    for wav in Path('extracted_data/libritts_r_test/LibriTTS_R/test-clean').rglob('*.wav'):
+        wavs.append(wav)
+    # randomly select 100 wavs
+    np.random.seed(0)
+    wavs = np.random.choice(wavs, 100, replace=False)
+    with tarfile.open(tar_dir / 'speech_libritts_r_test.tar.gz', 'w:gz') as tar:
+        for wav in wavs:
+            tar.add(wav, arcname=wav.name)
+            # transcript
+            # rename .normalized.txt to .txt
+            os.rename(wav.with_suffix('.normalized.txt'), wav.with_suffix('.txt'))
+            tar.add(wav.with_suffix('.txt'), arcname=wav.with_suffix('.txt').name)
+
 
 # lj_speech
 # extracted_data/lj_speech/LJSpeech-1.1/wavs

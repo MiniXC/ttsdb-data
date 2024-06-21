@@ -2,6 +2,16 @@ archives/*
 !archives/README.md
 extracted_data
 processed_data
-tts/data
+tts/data/*
+!tts/data/*.sh
+!tts/data/*.tar.gz
 tts/styletts2/StyleTTS2
 .DS_Store
+tts/metavoice/metavoice-src
+tts/melotts/MeloTTS
+tts/gpt-sovits/GPT-SoVITS
+tts/openvoice/OpenVoice
+tts/parler/parler
+tts/parler/parler_processed
+tts/pheme/pheme
+tts/whisper-speech/~

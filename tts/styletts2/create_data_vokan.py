@@ -91,7 +91,7 @@ global_phonemizer = phonemizer.backend.EspeakBackend(
     language="en-us", preserve_punctuation=True, with_stress=True
 )
 
-config = yaml.safe_load(open("Models/LibriTTS/config.yml"))
+config = yaml.safe_load(open("Models/Vokan/config.yml"))
 
 # load pretrained ASR model
 ASR_config = config.get("ASR_config", False)
@@ -113,7 +113,7 @@ model = build_model(model_params, text_aligner, pitch_extractor, plbert)
 _ = [model[key].eval() for key in model]
 _ = [model[key].to(device) for key in model]
 
-params_whole = torch.load("Models/LibriTTS/epochs_2nd_00020.pth", map_location="cpu")
+params_whole = torch.load("Models/Vokan/epoch_2nd_00012.pth", map_location="cpu")
 params = params_whole["net"]
 
 for key in model:
@@ -390,8 +390,8 @@ def STinference(
 
 if __name__ == "__main__":
     speaker_dict = {}
-    if not Path("../../data/styletts2").exists():
-        Path("../../data/styletts2").mkdir(parents=True, exist_ok=True)
+    if not Path("../../data/vokan").exists():
+        Path("../../data/vokan").mkdir(parents=True, exist_ok=True)
     noise = torch.randn(1,1,256).to(device)
     for wav in tqdm(sorted(list(Path("../../data/libritts_test_processed").rglob("*.wav"))), desc="Synthesizing"):
         try:
@@ -403,9 +403,9 @@ if __name__ == "__main__":
             text = wav.with_suffix(".txt").read_text()
             created_wav = inference(text, ref_s, alpha=0.3, beta=0.7, diffusion_steps=5, embedding_scale=1)
             wav_name = wav.name
-            sf.write(f"../../data/styletts2/{wav_name}", created_wav, 24000)
+            sf.write(f"../../data/vokan/{wav_name}", created_wav, 24000)
             # write text file
-            with open(f"../../data/styletts2/{wav_name.replace('.wav', '.txt')}", "w") as f:
+            with open(f"../../data/vokan/{wav_name.replace('.wav', '.txt')}", "w") as f:
                 f.write(text)
         except Exception as e:
             print(e)

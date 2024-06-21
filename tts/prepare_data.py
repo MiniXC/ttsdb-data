@@ -25,7 +25,8 @@ random.shuffle(wavs)
 random.shuffle(txts)
 
 for i, (wav, txt) in enumerate(zip(wavs[:100], txts[:100])):
-    wav_name = f"{i:03d}.wav"
-    txt_name = f"{i:03d}.txt"
+    speaker_id = wav.parent.parent.name
+    wav_name = f"{speaker_id}-{i:03d}.wav"
+    txt_name = f"{speaker_id}-{i:03d}.txt"
     Path(f"data/libritts_test_processed/{wav_name}").write_bytes(wav.read_bytes())
     Path(f"data/libritts_test_processed/{txt_name}").write_text(txt.read_text())
