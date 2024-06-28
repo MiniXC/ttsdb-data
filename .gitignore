@@ -15,3 +15,6 @@ tts/parler/parler
 tts/parler/parler_processed
 tts/pheme/pheme
 tts/whisper-speech/~
+tts/voicecraft2/VoiceCraft
+tts/voicecraft2/src
+tts/voicecraft2/data

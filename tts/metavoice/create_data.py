@@ -250,7 +250,7 @@ if __name__ == "__main__":
             old_wav += [0.0 for _ in range(sr//4)]
             old_wav += speaker_wav.tolist()
             # write to temp file
-            temp_file = Path(f"../../data/metavoice/tmp/{speaker_id}.wav")
+            temp_file = Path(f"../../data/tmp_speaker/{speaker_id}.wav")
             temp_file.parent.mkdir(parents=True, exist_ok=True)
             sf.write(temp_file, old_wav, sr)
             speaker_dict[speaker_id] = temp_file
@@ -272,7 +272,7 @@ if __name__ == "__main__":
             while len(speaker_wav) <= 30 * sr:
                 speaker_wav += speaker_wav
             # write to temp file
-            temp_file = Path(f"../../data/metavoice/tmp/{speaker_id}.wav")
+            temp_file = Path(f"../../data/tmp_speaker/{speaker_id}.wav")
             temp_file.parent.mkdir(parents=True, exist_ok=True)
             sf.write(temp_file, speaker_wav, sr)
             speaker_dict[speaker_id] = temp_file

@@ -1,4 +1,4 @@
-tar -zcvf gpt_sovits.tar.gz gptsovits
+tar -zcvf gptsovits.tar.gz gptsovits
 tar -zcvf melotts.tar.gz melotts
 tar -zcvf metavoice.tar.gz metavoice
 tar -zcvf openvoice.tar.gz openvoice
@@ -7,3 +7,5 @@ tar -zcvf styletts_2.tar.gz styletts2
 tar -zcvf vokan.tar.gz vokan
 tar -zcvf whisper_speech.tar.gz whisperspeech
 tar -zcvf xtts_v2.tar.gz xttsv2
+tar -zcvf pheme.tar.gz pheme
+tar -zcvf voicecraft2.tar.gz voicecraft2

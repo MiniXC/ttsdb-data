@@ -6,13 +6,16 @@ from TTS.api import TTS
 tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2", gpu=True)
 
 if __name__ == "__main__":
+    speaker_dict = {}
+
     Path("../data/xttsv2").mkdir(parents=True, exist_ok=True)
     wavs = sorted(list(Path("../data/libritts_test_processed").rglob("*.wav")))
     txts = sorted(list(Path("../data/libritts_test_processed").rglob("*.txt")))
 
     for wav, txt in tqdm(zip(wavs, txts), total=len(wavs)):
         speaker_id = wav.stem.split("-")[0]
-        speaker = f"../data/tmp_speakers/{speaker_id}.wav"
+        if speaker_id not in speaker_dict:
+            speaker_dict[speaker_id] = wav.resolve()
         
         wav_name = f"{speaker_id}-{wav.stem.split('-')[1]}.wav"
         txt_name = f"{speaker_id}-{wav.stem.split('-')[1]}.txt"
@@ -22,7 +25,7 @@ if __name__ == "__main__":
         tts.tts_to_file(
             text=text,
             file_path=f"../data/xttsv2/{wav_name}",
-            speaker_wav=speaker,
+            speaker_wav=speaker_dict[speaker_id],
             language="en"
         )
 

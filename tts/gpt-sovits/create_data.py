@@ -15,7 +15,15 @@ from inference_webui import get_tts_wav
 def create_wav(speaker, text):
     # create a temporary file of the speaker ref that is 8 seconds long
     y, sr = librosa.load(speaker)
-    y = y[:sr*8]
+    
+    # if shorter than 3 seconds, pad the start and end with zeros
+    if len(y) < sr * 3:
+        y = np.pad(y, (sr * 3 - len(y), 0), mode="constant")
+    # if longer than 8 seconds, take a random 8 second clip
+    elif len(y) > sr * 8:
+        start = np.random.randint(0, len(y) - sr * 8)
+        y = y[start:start + sr * 8]
+
     temp_file = tempfile.mktemp(suffix=".wav")
     sf.write(temp_file, y, sr)
 
@@ -37,10 +45,15 @@ if __name__ == "__main__":
 
     output_dir = "../../data/gptsovits"
 
+    speaker_dict = {}
+
     for wav, txt in tqdm(zip(wavs, txts), total=len(wavs)):
         speaker_id = wav.stem.split("-")[0]
 
-        speaker = f"../../data/tmp_speakers/{speaker_id}.wav"
+        if speaker_id not in speaker_dict:
+            speaker_dict[speaker_id] = wav.resolve()
+
+        speaker = speaker_dict[speaker_id]
 
         wav_name = f"{speaker_id}-{wav.stem.split('-')[1]}.wav"
         txt_name = f"{speaker_id}-{wav.stem.split('-')[1]}.txt"
